@@ -1,68 +1,163 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
+/* Winbro Design System with CSS Custom Properties */
+@layer base {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    /* Winbro Color Palette - HSL format */
+    --background: 0 0% 100%; /* White */
+    --foreground: 222 84% 5%; /* #111827 - Neutral dark */
+    
+    --primary: 217 100% 50%; /* #0B5FFF - Winbro Blue */
+    --primary-foreground: 0 0% 100%; /* White */
+    
+    --secondary: 158 64% 52%; /* #00A676 - Accent Green */
+    --secondary-foreground: 0 0% 100%; /* White */
+    
+    --card: 0 0% 100%; /* White */
+    --card-foreground: 222 84% 5%; /* #111827 */
+    
+    --border: 214 32% 91%; /* #E5E7EB */
+    --input: 214 32% 91%; /* #E5E7EB */
+    --ring: 217 100% 50%; /* #0B5FFF */
+    
+    --muted: 210 40% 98%; /* #F9FAFB */
+    --muted-foreground: 215 16% 47%; /* #6B7280 - Neutral mid */
+    
+    --accent: 210 40% 98%; /* #F9FAFB */
+    --accent-foreground: 222 84% 5%; /* #111827 */
+    
+    --destructive: 0 84% 60%; /* #EF4444 - Danger */
+    --destructive-foreground: 0 0% 100%; /* White */
+    
+    --success: 158 64% 52%; /* #00A676 - Accent Green */
+    --success-foreground: 0 0% 100%; /* White */
+    
+    --warning: 38 92% 50%; /* #F59E0B */
+    --warning-foreground: 0 0% 100%; /* White */
+    
+    --info: 199 89% 48%; /* #0EA5E9 - Info */
+    --info-foreground: 0 0% 100%; /* White */
+    
+    --radius: 0.5rem; /* 8px border radius */
   }
-  a:hover {
-    color: #747bff;
+  
+  .dark {
+    --background: 222 84% 5%; /* #111827 */
+    --foreground: 210 40% 98%; /* #F9FAFB */
+    
+    --card: 222 84% 5%; /* #111827 */
+    --card-foreground: 210 40% 98%; /* #F9FAFB */
+    
+    --border: 217 19% 27%; /* #374151 */
+    --input: 217 19% 27%; /* #374151 */
+    
+    --muted: 217 19% 27%; /* #374151 */
+    --muted-foreground: 215 20% 65%; /* #9CA3AF */
+    
+    --accent: 217 19% 27%; /* #374151 */
+    --accent-foreground: 210 40% 98%; /* #F9FAFB */
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+@layer base {
+  * {
+    @apply border-border;
   }
+  
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Typography Scale */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+  
+  h1 {
+    @apply text-h1;
+  }
+  
+  h2 {
+    @apply text-h2;
+  }
+  
+  h3 {
+    @apply text-h3;
+  }
+  
+  p {
+    @apply text-body;
+  }
+  
+  small {
+    @apply text-small;
+  }
+}
+
+@layer components {
+  /* Custom component styles */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 focus:ring-2 focus:ring-secondary focus:ring-offset-2;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-card-hover hover:-translate-y-1;
+  }
+  
+  .input-focus {
+    @apply focus:ring-2 focus:ring-primary focus:border-primary;
+  }
+}
+
+/* Smooth Scrolling */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Custom Animations */
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+/* Focus Visible for Accessibility */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--foreground));
 }
