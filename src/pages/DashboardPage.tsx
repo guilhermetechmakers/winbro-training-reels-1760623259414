@@ -12,16 +12,26 @@ import {
   Settings,
   Menu,
   ArrowRight,
-  Eye
+  Eye,
+  Upload,
+  FileVideo,
+  Clock,
+  CheckCircle2,
+  AlertCircle,
+  Loader2
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useDashboardStats, useActivity, useRecentReels, useAssignedCourses } from "@/hooks/useDashboard";
+import { useActiveUploads } from "@/hooks/useVideoUpload";
+import { useUserTranscodingJobs } from "@/hooks/useTranscoding";
 
 export default function DashboardPage() {
   const { data: stats } = useDashboardStats();
   const { data: activity } = useActivity(5);
   const { data: recentReels } = useRecentReels(6);
   const { data: assignedCourses } = useAssignedCourses();
+  const { data: activeUploads } = useActiveUploads();
+  const { data: transcodingJobs } = useUserTranscodingJobs();
 
   // Mock data for demonstration
   const mockStats = {
@@ -149,6 +159,12 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex items-center space-x-4">
+              <Button asChild>
+                <Link to="/upload" className="flex items-center space-x-2">
+                  <Upload className="h-4 w-4" />
+                  <span className="hidden sm:inline">Upload Reel</span>
+                </Link>
+              </Button>
               <Button variant="ghost" size="sm">
                 <Bell className="h-4 w-4" />
               </Button>
@@ -166,12 +182,22 @@ export default function DashboardPage() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome back, John!
-          </h1>
-          <p className="text-muted-foreground">
-            Here's what's happening with your training today.
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground mb-2">
+                Welcome back, John!
+              </h1>
+              <p className="text-muted-foreground">
+                Here's what's happening with your training today.
+              </p>
+            </div>
+            <Button asChild size="lg" className="hidden md:flex">
+              <Link to="/upload" className="flex items-center space-x-2">
+                <Upload className="h-5 w-5" />
+                <span>Upload New Reel</span>
+              </Link>
+            </Button>
+          </div>
         </div>
 
         {/* Stats Grid */}
@@ -228,6 +254,101 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Upload Progress */}
+        {(activeUploads && activeUploads.length > 0) && (
+          <div className="mb-8">
+            <Card className="animate-fade-in-up">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Upload className="h-5 w-5" />
+                  <span>Upload Progress</span>
+                </CardTitle>
+                <CardDescription>
+                  Your video uploads are being processed
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {activeUploads.map((upload, index) => (
+                    <div key={index} className="flex items-center space-x-4 p-4 border rounded-lg">
+                      <div className="flex-shrink-0">
+                        <FileVideo className="h-8 w-8 text-primary" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium truncate">Upload {index + 1}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {upload.status}
+                        </p>
+                        <div className="mt-2">
+                          <Progress value={upload.progress} className="h-2" />
+                          <span className="text-xs text-muted-foreground mt-1 block">
+                            {upload.progress}% complete
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex-shrink-0">
+                        {upload.status === 'uploading' && (
+                          <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                        )}
+                        {upload.status === 'complete' && (
+                          <CheckCircle2 className="h-4 w-4 text-success" />
+                        )}
+                        {upload.status === 'error' && (
+                          <AlertCircle className="h-4 w-4 text-destructive" />
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        {/* Transcoding Jobs */}
+        {(transcodingJobs && transcodingJobs.length > 0) && (
+          <div className="mb-8">
+            <Card className="animate-fade-in-up">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Clock className="h-5 w-5" />
+                  <span>Processing Jobs</span>
+                </CardTitle>
+                <CardDescription>
+                  Your videos are being processed and transcribed
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {transcodingJobs.map((job) => (
+                    <div key={job.id} className="flex items-center space-x-4 p-4 border rounded-lg">
+                      <div className="flex-shrink-0">
+                        <FileVideo className="h-8 w-8 text-warning" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium">Processing Video</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {job.status.replace('_', ' ').toUpperCase()} • {job.progress}% complete
+                        </p>
+                        <div className="mt-2">
+                          <Progress value={job.progress} className="h-2" />
+                        </div>
+                      </div>
+                      <div className="flex-shrink-0">
+                        {job.status === 'complete' ? (
+                          <CheckCircle2 className="h-4 w-4 text-success" />
+                        ) : (
+                          <Loader2 className="h-4 w-4 animate-spin text-warning" />
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Assigned Courses */}

@@ -12,6 +12,7 @@ import ReelPlayerPage from "@/pages/ReelPlayerPage";
 import SearchPage from "@/pages/SearchPage";
 import CourseBuilderPage from "@/pages/CourseBuilderPage";
 import ProfilePage from "@/pages/ProfilePage";
+import CreateUploadContentPage from "@/pages/CreateUploadContentPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 
 // React Query client with optimal defaults
@@ -44,6 +45,7 @@ function App() {
               <Route path="/search" element={<SearchPage />} />
               <Route path="/course-builder" element={<CourseBuilderPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/upload" element={<CreateUploadContentPage />} />
               
               {/* 404 */}
               <Route path="*" element={<NotFoundPage />} />
