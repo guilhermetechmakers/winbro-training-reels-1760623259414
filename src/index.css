@@ -8,7 +8,7 @@
 /* Winbro Design System with CSS Custom Properties */
 @layer base {
   :root {
-    /* Winbro Color Palette - HSL format */
+    /* Winbro Color Palette - HSL format (exact specifications) */
     --background: 0 0% 100%; /* White */
     --foreground: 222 84% 5%; /* #111827 - Neutral dark */
     
@@ -44,6 +44,11 @@
     --info-foreground: 0 0% 100%; /* White */
     
     --radius: 0.5rem; /* 8px border radius */
+    
+    /* Additional Winbro-specific colors */
+    --neutral-light: 210 40% 98%; /* #F3F4F6 - Neutral light */
+    --neutral-mid: 215 16% 47%; /* #6B7280 - Neutral mid */
+    --neutral-dark: 222 84% 5%; /* #111827 - Neutral dark */
   }
   
   .dark {
@@ -101,21 +106,81 @@
 }
 
 @layer components {
-  /* Custom component styles */
+  /* Winbro Component Styles */
   .btn-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2;
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 hover:scale-105 active:scale-95;
   }
   
   .btn-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 focus:ring-2 focus:ring-secondary focus:ring-offset-2;
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 focus:ring-2 focus:ring-secondary focus:ring-offset-2 transition-all duration-200 hover:scale-105 active:scale-95;
+  }
+  
+  .btn-ghost {
+    @apply text-foreground hover:bg-muted hover:text-foreground transition-all duration-200 hover:scale-105 active:scale-95;
   }
   
   .card-hover {
-    @apply transition-all duration-200 hover:shadow-card-hover hover:-translate-y-1;
+    @apply transition-all duration-200 hover:shadow-card-hover hover:-translate-y-1 hover:border-primary/20;
   }
   
   .input-focus {
-    @apply focus:ring-2 focus:ring-primary focus:border-primary;
+    @apply focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-200;
+  }
+  
+  /* Winbro-specific component styles */
+  .reel-card {
+    @apply bg-card border border-border rounded-lg p-3 shadow-card transition-all duration-200 hover:shadow-card-hover hover:-translate-y-1;
+  }
+  
+  .tag-chip {
+    @apply inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-neutral-light text-neutral-dark border border-border;
+  }
+  
+  .tag-chip-active {
+    @apply bg-primary text-primary-foreground border-primary;
+  }
+  
+  .video-player-container {
+    @apply relative w-full max-w-5xl mx-auto bg-black rounded-lg overflow-hidden;
+  }
+  
+  .transcript-timestamp {
+    @apply cursor-pointer text-primary hover:text-primary/80 hover:underline transition-colors duration-200;
+  }
+  
+  .transcript-timestamp-active {
+    @apply text-primary font-semibold bg-primary/10 px-1 rounded;
+  }
+  
+  /* Gradient backgrounds */
+  .gradient-primary {
+    @apply bg-gradient-to-r from-primary to-primary/80;
+  }
+  
+  .gradient-secondary {
+    @apply bg-gradient-to-r from-secondary to-secondary/80;
+  }
+  
+  .gradient-mesh {
+    @apply bg-gradient-to-br from-background via-background to-primary/5;
+  }
+  
+  /* Animation utilities */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+  
+  .animate-stagger-1 {
+    animation: fadeInUp 0.6s ease-out 0.1s forwards;
+    animation-delay: 0.1s;
+  }
+  
+  .animate-stagger-2 {
+    animation: fadeInUp 0.6s ease-out 0.2s forwards;
+  }
+  
+  .animate-stagger-3 {
+    animation: fadeInUp 0.6s ease-out 0.3s forwards;
   }
 }
 

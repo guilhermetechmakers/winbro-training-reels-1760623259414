@@ -212,10 +212,20 @@ export default {
   			'18': '4.5rem',
   			'88': '22rem'
   		},
-  		boxShadow: {
-  			card: '0 1px 3px rgba(17,24,39,0.06)',
-  			'card-hover': '0 4px 6px rgba(17,24,39,0.1)'
-  		}
+		boxShadow: {
+			card: '0 1px 3px rgba(17,24,39,0.06)',
+			'card-hover': '0 4px 6px rgba(17,24,39,0.1)',
+			'card-elevated': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+			'glow-primary': '0 0 20px rgba(11, 95, 255, 0.3)',
+			'glow-secondary': '0 0 20px rgba(0, 166, 118, 0.3)'
+		},
+		backdropBlur: {
+			xs: '2px'
+		},
+		aspectRatio: {
+			'video': '16 / 9',
+			'card': '4 / 3'
+		}
   	}
   },
   plugins: [
